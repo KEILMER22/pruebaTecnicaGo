@@ -2,14 +2,13 @@ package usecases
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	dgrahpdata "pruebatecnica/pruebatecnicabackend/core/dgraphdata"
 	"pruebatecnica/pruebatecnicabackend/features/buyer/query"
 )
 
 //GetBuyerInfo return
-func getBuyerWhitSameIP(id string) []string {
+func GetBuyerWhitSameIP(id string) []string {
 	var sameIp dgrahpdata.AuxResponseSingle
 	var buyerIp dgrahpdata.AuxResponseSingle
 	var buyerNames dgrahpdata.AuxResponseSingle
@@ -19,8 +18,6 @@ func getBuyerWhitSameIP(id string) []string {
 	if error != nil {
 		log.Fatal(error)
 	}
-
-	fmt.Println(buyerIp)
 	for j := 0; j < len(buyerIp.Response); j++ {
 		ip := buyerIp.Response[j].ResponseString
 		response = dgrahpdata.BdQueryWithVars(query.GETBUYERSBYIP, ip).Json

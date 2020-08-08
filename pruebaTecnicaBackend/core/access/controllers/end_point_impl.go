@@ -1,9 +1,13 @@
 package controllers
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
-	"pruebatecnica/pruebatecnicabackend/features/purchase/domain/usecases"
+	PurchaseUsecase "pruebaTecnica/pruebaTecnicaBackend/features/purchase/domain/usecases"
+	BuyerUsecase "pruebatecnica/pruebatecnicabackend/features/buyer/domain/usecases"
+	ProductUsecase "pruebatecnica/pruebatecnicabackend/features/product/domain/usecases"
 
 	"github.com/go-chi/chi"
 )
@@ -35,19 +39,33 @@ func EndpointInit() {
 func loadData(w http.ResponseWriter, r *http.Request) {
 	date := chi.URLParam(r, "date")
 	if date != "" {
-		w.Write(usecases.GetPurchaseByDate(date))
+		w.Write(PurchaseUsecase.GetPurchaseByDate(date))
 	} else {
-		w.Write(usecases.GetPurchaseByDate(""))
+		w.Write(PurchaseUsecase.GetPurchaseByDate(""))
 	}
 }
 
 func listBuyers(w http.ResponseWriter, r *http.Request) {
-	// response := usecases.GetPurchaseByDate("")
-	// w.Write(response.Json)
+
+	w.Write(BuyerUsecase.GetAllBuyers().Json)
 
 }
 
 func buyerInfo(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
-	usecases.GetPurchaseByDate(id)
+	type Response struct {
+		sameIpBuyers    []string `json:"sameIpBuyers,omitempty"`
+		purchaseHistory []string `json:"purchaseHistory,omitempty"`
+	}
+
+	pb, err := json.Marshal(BuyerUsecase.GetBuyerWhitSameIP(id))
+	if err != nil {
+		log.Fatal(err)
+	}
+	w.Write(pb)
+	pb, err = json.Marshal(ProductUsecase.GetProductsHistory(id))
+	if err != nil {
+		log.Fatal(err)
+	}
+	w.Write(pb)
 }

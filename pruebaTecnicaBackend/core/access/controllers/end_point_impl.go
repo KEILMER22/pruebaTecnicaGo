@@ -3,9 +3,9 @@ package controllers
 import (
 	"fmt"
 	"net/http"
-	"pruebaTecnica/pruebatecnicabackend/features/purchase/domain/usecases"
+	"pruebatecnica/pruebatecnicabackend/features/purchase/domain/usecases"
 
-	"pruebaTecnica/pruebatecnicabackend/core/pkg/github.com/go-chi/chi"
+	"github.com/go-chi/chi"
 )
 
 //PORT -> serve and listen port
@@ -42,12 +42,12 @@ func loadData(w http.ResponseWriter, r *http.Request) {
 }
 
 func listBuyers(w http.ResponseWriter, r *http.Request) {
-	response := usecases.GetBuyers()
-	w.Write(response.Json)
+	// response := usecases.GetPurchaseByDate("")
+	// w.Write(response.Json)
 
 }
 
 func buyerInfo(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
-	usecases.GetBuyerInfo(id)
+	usecases.GetPurchaseByDate(id)
 }

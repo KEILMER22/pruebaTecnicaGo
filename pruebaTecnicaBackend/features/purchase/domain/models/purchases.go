@@ -1,16 +1,19 @@
 package models
 
+import (
+	Modelbuyer "pruebatecnica/pruebatecnicabackend/features/buyer/domain/models"
+	Modelproduct "pruebatecnica/pruebatecnicabackend/features/product/domain/models"
+	Modeltransaction "pruebatecnica/pruebatecnicabackend/features/transaction/domain/models"
+)
+
 type Purchases struct {
-	Cod          string        `json:"cod,omitempty"`
-	Buyers       []Buyer       `json:"Buyers,omitempty"`
-	Products     []Product     `json:"Products,omitempty"`
-	Transactions []Transaction `json:"Transactions,omitempty"`
+	Buyers       []Modelbuyer.Buyer             `json:"Buyers,omitempty"`
+	Products     []Modelproduct.Product         `json:"Products,omitempty"`
+	Transactions []Modeltransaction.Transaction `json:"Transactions,omitempty"`
 }
 
-func NewPurchases(uid string, buyers []Buyer, products []Product, transactions []Transaction) Purchases {
-
+func NewPurchases(buyers []Modelbuyer.Buyer, products []Modelproduct.Product, transactions []Modeltransaction.Transaction) Purchases {
 	purchases := Purchases{
-		Cod:          uid,
 		Buyers:       buyers,
 		Products:     products,
 		Transactions: transactions,

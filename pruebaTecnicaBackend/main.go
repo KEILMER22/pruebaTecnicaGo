@@ -1,9 +1,7 @@
 package main
 
 import (
-	"pruebaTecnica/pruebatecnicabackend/features/purchase/domain/usecases"
-	_ "pruebaTecnica/pruebatecnicabackend/features/purchase/domain/usecases"
-	_ "pruebaTecnica/pruebatecnicabackend/features/purchase/repository"
+	"pruebaTecnica/pruebaTecnicaBackend/core/access/controllers"
 )
 
 func main() {
@@ -16,9 +14,9 @@ func main() {
 		fmt.Println(p)
 		fmt.Println(pb)
 	*/
-	//controllers.EndpointInit()
+	controllers.EndpointInit()
 	//usecases.GetPurchaseByDate("")
-	usecases.GetBuyerInfo("187d6d69")
+	//usecases.GetBuyerInfo("187d6d69")
 	//fmt.Println(dgrahpdata.BdQuery(q))
 
 }

@@ -2,8 +2,6 @@ package dgrahpdata
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"log"
 
 	"github.com/dgraph-io/dgo"
@@ -62,125 +60,22 @@ const (
 							Transaction:  [Transaction]
 						}
 						`
-	BUYERSQUERY = `{
-						people(func: has(name)){
-							name
-						}
-					}`
-
-	GETPRODUCTSID = `query all($a: string) {
-						Response(func: eq(buyer_id, $a)) {
-							ResponseString : product_ids
-						}
-					  }`
-	GETPRODUCT = `query all($a: string) {
-						Response(func: eq(id, $a)) {
-							ResponseString : name
-						}
-					}`
-
-	GETIP = `query all($a: string) {
-						Response(func: eq(buyer_id, $a)) {
-							ResponseString : ip
-						}
-					}`
-	GETUSERSBYIP = `query all($a: string) {
-						Response(func: eq(ip, $a)) {
-							ResponseString : buyer_id
-						}
-					}`
-
-	GETNAMEBYID = `query all($a: string) {
-						Response(func: eq(id, $a)) {
-							ResponseString : name
-						}
-					}`
 )
 
-// Querys
-func BuyersQuery() *api.Response {
-	return BdQuery(BUYERSQUERY)
-
+type AuxResponse struct {
+	Response []AuxResponseString `json:"Response,omitempty"`
 }
-
-type Response struct {
-	Response []ResponseString `json:"Response,omitempty"`
-}
-type ResponseString struct {
+type AuxResponseString struct {
 	ResponseString []string `json:"ResponseString,omitempty"`
 }
-type ResponseB struct {
-	Response []ResponseStringB `json:"Response,omitempty"`
+type AuxResponseSingle struct {
+	Response []AuxResponseSingleString `json:"Response,omitempty"`
 }
-type ResponseStringB struct {
+type AuxResponseSingleString struct {
 	ResponseString string `json:"ResponseString,omitempty"`
 }
 
-func BuyHistory(id string) []string {
-	var data Response
-	var product ResponseB
-	var StringProduct []string
-	response := BdQueryWithVars(GETPRODUCTSID, id).Json
-	error := json.Unmarshal(response, &data)
-	if error != nil {
-		log.Fatal(error)
-	}
-	if len(data.Response) != 0 {
-		for j := 0; j < len(data.Response); j++ {
-			productIds := data.Response[j].ResponseString
-			for i := 0; i < len(productIds); i++ {
-				response = BdQueryWithVars(GETPRODUCT, productIds[i]).Json
-				error := json.Unmarshal(response, &product)
-				if error != nil {
-					log.Fatal(error)
-				}
-				if len(product.Response) != 0 {
-					StringProduct = append(StringProduct, product.Response[0].ResponseString)
-				}
-			}
-		}
-	}
-	StringProduct = removeDuplicatesUnordered(StringProduct)
-	return StringProduct
-}
-
-func IpBuyers(id string) []string {
-	var sameIp ResponseB
-	var buyerIp ResponseB
-	var buyerNames ResponseB
-	var buyers []string
-	response := BdQueryWithVars(GETIP, id).Json
-	error := json.Unmarshal(response, &buyerIp)
-	if error != nil {
-		log.Fatal(error)
-	}
-
-	fmt.Println(buyerIp)
-	for j := 0; j < len(buyerIp.Response); j++ {
-		ip := buyerIp.Response[j].ResponseString
-		response = BdQueryWithVars(GETUSERSBYIP, ip).Json
-		error := json.Unmarshal(response, &sameIp)
-		if error != nil {
-			log.Fatal(error)
-		}
-
-		for i := 0; i < len(sameIp.Response); i++ {
-			id := sameIp.Response[i].ResponseString
-			response = BdQueryWithVars(GETNAMEBYID, id).Json
-			error := json.Unmarshal(response, &buyerNames)
-			if error != nil {
-				log.Fatal(error)
-			}
-			name := buyerNames.Response[0].ResponseString
-			buyers = append(buyers, name)
-		}
-
-	}
-	buyers = removeDuplicatesUnordered(buyers)
-	return buyers
-}
-
-func removeDuplicatesUnordered(elements []string) []string {
+func RemoveDuplicatesUnordered(elements []string) []string {
 	encountered := map[string]bool{}
 
 	// Create a map of all unique elements.

@@ -6,17 +6,16 @@
       <table class=" zui-table center">
         <thead>
          <tr class="text-center">
-            <th>Name</th>
-            <th>Position</th>
-            <th>Height</th>
-            <th>Born</th>
-            <th>Salary</th>
+            <th>Codigo</th>
+            <th>Nombre</th>
+            <th>Edad</th>
         </tr>
         </thead>
         <tbody>
          <tr  class="text-center" v-for="buyer in BuyerNames" :key="buyer">
+            <td>{{buyer.id}}</td>
             <td>{{buyer.name}}</td>
-            <td>{{buyer.name}}</td>
+            <td>{{buyer.age}}</td>
          </tr>
         </tbody>
       </table>
@@ -52,10 +51,6 @@ export default {
   },
   components: {
   },
-  mounted(){
-    this.fechaSeleccionada()
-
-  }
 }
 
 </script>

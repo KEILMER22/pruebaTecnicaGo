@@ -1,6 +1,6 @@
 <template>
-    <div>
-      <datepicker :format=dateFormat v-model="date" placeholder="Ingrese una fecha" name="fecha" @input="fechaSeleccionada" >
+    <div class="center">
+      <datepicker  :format=dateFormat v-model="date" placeholder="Ingrese una fecha" name="fecha" @input="fechaSeleccionada" >
       </datepicker>
      <p> estado: {{dateLabel}}</p>
     </div>
@@ -51,7 +51,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.center{
+  margin-left:auto; 
+  margin-right:auto;
+}
 div{
+  text-align:center;
   justify-content: center;
   align-items: center;
 }

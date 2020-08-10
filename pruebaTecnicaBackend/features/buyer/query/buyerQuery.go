@@ -3,7 +3,9 @@ package query
 const (
 	BUYERSQUERY = `{
 		people(func: has(age)){
+			id
 			name
+			age
 		}
 	}`
 	GETIPSBYBUYERID = `query all($a: string) {

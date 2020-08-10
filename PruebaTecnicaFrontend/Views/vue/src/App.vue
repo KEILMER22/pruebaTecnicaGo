@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <!--<input-date> </input-date>
-    -->
+    <input-date> </input-date>
+    
     <BuyersList>
 
     </BuyersList>
@@ -12,13 +12,13 @@
 
 <script>
 //import HelloWorld from './components/HelloWorld.vue'
-//import inputDate from './components/inputDate.vue'
+import inputDate from './components/inputDate.vue'
 import BuyersList from './components/BuyersList.vue'
 export default {
   name: 'App',
   components: {
     //HelloWorld,
-    //inputDate,
+    inputDate,
     BuyersList
   }
 

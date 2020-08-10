@@ -2,7 +2,7 @@ package query
 
 const (
 	BUYERSQUERY = `{
-		people(func: has(name)){
+		people(func: has(age)){
 			name
 		}
 	}`

@@ -1,15 +1,23 @@
 <template>
-  <div class="hello">
+  <div class="BuyerNames">
     <h1>{{ msg }}</h1>
     
   </div>
+  
 </template>
 
 <script>
+
+import axios from 'axios'
 export default {
-  name: 'HelloWorld',
+  name: 'BuyerNames',
   props: {
     msg: String
+  },
+  data(){
+    return{
+      msg:null
+    }
   }
 }
 </script>

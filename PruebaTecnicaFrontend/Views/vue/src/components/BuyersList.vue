@@ -61,9 +61,11 @@ div{
   height: 10em;
   justify-content: center;
 }
+
 table.center {
   margin-left:auto; 
   margin-right:auto;
+  margin-top:5px;
 }
 
 .zui-table {

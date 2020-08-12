@@ -1,36 +1,78 @@
 <template>
     <div id="clientPage">
         <img alt="Vue logo" src="../assets/logo.png">
-        
+        <p></p>  
         <div>
             <input v-model="id" placeholder="ingrese el id">
+            <button  type="info" @click="searchClient">Listar Compradores</button>
         </div>
-        <a class="myButton" @click="searchClient" >Consultar</a>
-            
+      <table class=" zui-table center" style="display: inline-block; border: 1px solid; ">
+        <thead>
+         <tr class="text-center">
+            <th>Usuarios con la misma Ip</th>
+        </tr>
+        </thead>
+        <tbody>
+         <tr  class="text-center" v-for="buyer in buyerIp" :key="buyer">
+            <td>{{buyer.item}}</td>
+         </tr>
+        </tbody>
+      </table>
+            <table class=" zui-table center" style="display: inline-block; border: 1px solid; ">
+        <thead>
+         <tr class="text-center">
+            <th>Compras del usuario</th>
+        </tr>
+        </thead>
+        <tbody>
+         <tr  class="text-center" v-for="buy in buyerProd" :key="buy">
+            <td>{{buy.item}}</td>
+         </tr>
+        </tbody>
+      </table>
     </div>
 </template>
 
 <script>
+
+//import moment from 'moment';
 import axios from 'axios'
+
 export default {
-  name: 'clientPage',
-  message: null,
-  components: {
+  name: 'BuyersList',
+  buyerIp:null ,
+  buyerProd:null,
+  props: {
+  },
+  data(){
+    return{
+      buyerIp:null ,
+      buyerProd:null,
+    }
   },
   methods:{
-    searchClient(){
-      console.log("consult Buyers")
+    getClients(){
+      console.log("getClients")
       axios.get('http://localhost:8090/list_buyers')
         .then(response => {
           this.BuyerNames = response.data.people
-          console.log(response)
+          console.log(this.BuyerNames)
+        })
+        .catch( e=> console.log(e))
+    },
+    searchClient(){
+      console.log(this.id)
+      axios.get('http://localhost:8090/buyer_info/'+this.id)
+        .then(response => {
+          this.buyerIp = response.data.sameIpBuyers
+          this.buyerProd = response.data.purchaseHistory
         })
         .catch( e=> console.log(e))
     }
-  }
-
+  },
+  components: {
+  },
 }
-
 
 </script>
 
@@ -69,4 +111,29 @@ export default {
 	position:relative;
 	top:1px;
 }
+div{
+  height: 10em;
+  justify-content: center;
+}
+.zui-table {
+    border: solid 1px #DDEEEE;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
+.zui-table thead th {
+    background-color: #DDEFEF;
+    border: solid 1px #DDEEEE;
+    color: #336B6B;
+    padding: 10px;
+    text-align: center;
+    text-shadow: 1px 1px 1px #fff;
+}
+.zui-table tbody td {
+    border: solid 1px #DDEEEE;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+}
+
 </style>

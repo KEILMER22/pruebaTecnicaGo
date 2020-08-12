@@ -1,8 +1,10 @@
 <template>
     <div class="center">
+      
       <datepicker  :format=dateFormat v-model="date" placeholder="Ingrese una fecha" name="fecha" @input="fechaSeleccionada" >
       </datepicker>
-     <p> estado: {{dateLabel}}</p>
+      <p> estado: {{dateLabel}}</p>
+     
     </div>
   
 </template>

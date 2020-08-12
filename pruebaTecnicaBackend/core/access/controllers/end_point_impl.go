@@ -1,13 +1,10 @@
 package controllers
 
 import (
-	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	PurchaseUsecase "pruebaTecnica/pruebaTecnicaBackend/features/purchase/domain/usecases"
 	BuyerUsecase "pruebatecnica/pruebatecnicabackend/features/buyer/domain/usecases"
-	ProductUsecase "pruebatecnica/pruebatecnicabackend/features/product/domain/usecases"
 
 	"github.com/go-chi/chi"
 )
@@ -53,19 +50,6 @@ func listBuyers(w http.ResponseWriter, r *http.Request) {
 
 func buyerInfo(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
-	type Response struct {
-		sameIpBuyers    []string `json:"sameIpBuyers,omitempty"`
-		purchaseHistory []string `json:"purchaseHistory,omitempty"`
-	}
-
-	pb, err := json.Marshal(BuyerUsecase.GetBuyerWhitSameIP(id))
-	if err != nil {
-		log.Fatal(err)
-	}
-	w.Write(pb)
-	pb, err = json.Marshal(ProductUsecase.GetProductsHistory(id))
-	if err != nil {
-		log.Fatal(err)
-	}
-	w.Write(pb)
+	buyerInfo := BuyerUsecase.GetBuyerInfo(id)
+	w.Write(buyerInfo)
 }

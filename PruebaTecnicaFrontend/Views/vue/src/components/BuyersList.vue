@@ -62,6 +62,10 @@ div{
   justify-content: center;
 }
 
+button{
+  margin-top:60px;
+}
+
 table.center {
   margin-left:auto; 
   margin-right:auto;

@@ -9,27 +9,32 @@
       <table class=" zui-table center" style="display: inline-block; border: 1px solid; ">
         <thead>
          <tr class="text-center">
-            <th>Usuarios con la misma Ip</th>
+            <th>Misma Ip</th>
+            <th>Compra del usuario</th>
+            <th>Productos recomendados</th>
+
         </tr>
         </thead>
         <tbody>
-         <tr  class="text-center" v-for="buyer in buyerIp" :key="buyer">
-            <td>{{buyer.item}}</td>
+         <tr>
+            <td>
+              <table  class=" zui-table center">
+                <tr class="text-center" v-for="item in buyerIp" :key="item">  
+                  <td>{{item.item}}</td>
+                </tr>
+              </table>
+            </td>
+            <td>
+              <table  class=" zui-table center">
+                <tr  v-for="item in buyerProd" :key="item">  
+                  <td>{{item.item}}</td>
+                </tr>
+              </table>
+            </td>
          </tr>
         </tbody>
       </table>
-            <table class=" zui-table center" style="display: inline-block; border: 1px solid; ">
-        <thead>
-         <tr class="text-center">
-            <th>Compras del usuario</th>
-        </tr>
-        </thead>
-        <tbody>
-         <tr  class="text-center" v-for="buy in buyerProd" :key="buy">
-            <td>{{buy.item}}</td>
-         </tr>
-        </tbody>
-      </table>
+      
     </div>
 </template>
 

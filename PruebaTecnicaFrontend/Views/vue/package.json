@@ -12,7 +12,9 @@
     "core-js": "^3.6.5",
     "moment": "^2.27.0",
     "vue": "^2.6.11",
+    "vue-material": "^1.0.0-beta-15",
     "vue-router": "^3.4.2",
+    "vue-ultimate-skeleton-cards": "^1.0.3",
     "vuejs-datepicker": "^1.6.2"
   },
   "devDependencies": {

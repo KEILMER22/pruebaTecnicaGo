@@ -43,8 +43,8 @@ export default {
       console.log("getClients")
       axios.get('http://localhost:8090/list_buyers')
         .then(response => {
-          this.BuyerNames = response.data.people
-          console.log(response)
+          this.BuyerNames = response.data.Response
+          console.log(this.BuyerNames)
         })
         .catch( e=> console.log(e))
     }

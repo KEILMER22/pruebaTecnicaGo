@@ -2,7 +2,7 @@ package query
 
 const (
 	BUYERSQUERY = `{
-		people(func: has(age)){
+		Response(func: has(age)){
 			id
 			name
 			age
@@ -21,7 +21,17 @@ const (
 
 	GETNAMEBYID = `query all($a: string) {
 		Response(func: eq(id, $a)) {
-			ResponseString : name
+			Name : name
+			Age : age
+			Id : id
+		}
+	}`
+
+	GETPRODUCTBYID = `query all($a: string) {
+		Response(func: has(price, $a)) {
+			Id : id
+			Name : name
+			Price : price
 		}
 	}`
 )

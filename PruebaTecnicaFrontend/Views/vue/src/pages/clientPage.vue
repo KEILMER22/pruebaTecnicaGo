@@ -4,37 +4,55 @@
         <p></p>  
         <div>
             <input v-model="id" placeholder="ingrese el id">
-            <button  type="info" @click="searchClient">Listar Compradores</button>
+            <button  type="info" @click="searchClient">Buscar comprador</button>
         </div>
-      <table class=" zui-table center" style="display: inline-block; border: 1px solid; ">
-        <thead>
-         <tr class="text-center">
-            <th>Misma Ip</th>
-            <th>Compra del usuario</th>
-            <th>Productos recomendados</th>
-
-        </tr>
-        </thead>
-        <tbody>
-         <tr>
-            <td>
-              <table  class=" zui-table center">
-                <tr class="text-center" v-for="item in buyerIp" :key="item">  
-                  <td>{{item.item}}</td>
-                </tr>
-              </table>
-            </td>
-            <td>
-              <table  class=" zui-table center">
-                <tr  v-for="item in buyerProd" :key="item">  
-                  <td>{{item.item}}</td>
-                </tr>
-              </table>
-            </td>
-         </tr>
-        </tbody>
-      </table>
-      
+        <div>
+          <md-table md-card>
+            <md-table-toolbar>
+              <h1 class="md-title">Misma Ip</h1>
+            </md-table-toolbar>
+            <md-table-row>
+              <md-table-head>ID</md-table-head>
+              <md-table-head>Name</md-table-head>
+              <md-table-head>Age</md-table-head>
+            </md-table-row>
+            <md-table-row  v-for="item in buyerIp" :key="item">
+              <md-table-cell>{{item.id}}</md-table-cell>
+              <md-table-cell>{{item.name}}</md-table-cell>
+              <md-table-cell>{{item.age}}</md-table-cell>
+            </md-table-row>
+          </md-table>
+          <md-table md-card>
+            <md-table-toolbar>
+              <h1 class="md-title">Historial de compra</h1>
+            </md-table-toolbar>
+            <md-table-row>
+              <md-table-head>ID</md-table-head>
+              <md-table-head>Name</md-table-head>
+              <md-table-head>Price</md-table-head>
+            </md-table-row>
+            <md-table-row  v-for="prod in buyerProd" :key="prod">
+              <md-table-cell>{{prod.id}}</md-table-cell>
+              <md-table-cell>{{prod.name}}</md-table-cell>
+              <md-table-cell>{{prod.price}}</md-table-cell>
+            </md-table-row>
+          </md-table>
+          <md-table md-card>
+            <md-table-toolbar>
+              <h1 class="md-title">Recomendaciones</h1>
+            </md-table-toolbar>
+            <md-table-row>
+              <md-table-head>ID</md-table-head>
+              <md-table-head>Name</md-table-head>
+              <md-table-head>Price</md-table-head>
+            </md-table-row>
+            <md-table-row  v-for="item in recomendations" :key="item">
+              <md-table-cell>{{item.id}}</md-table-cell>
+              <md-table-cell>{{item.name}}</md-table-cell>
+              <md-table-cell>{{item.price}}</md-table-cell>
+            </md-table-row>
+          </md-table>
+        </div>
     </div>
 </template>
 
@@ -44,33 +62,30 @@
 import axios from 'axios'
 
 export default {
-  name: 'BuyersList',
+  name: 'ClientPage',
   buyerIp:null ,
   buyerProd:null,
+  recomendations:null,
+  id:null,
   props: {
   },
   data(){
     return{
       buyerIp:null ,
       buyerProd:null,
+      recomendations:null,
+      id:null,
     }
   },
   methods:{
-    getClients(){
-      console.log("getClients")
-      axios.get('http://localhost:8090/list_buyers')
-        .then(response => {
-          this.BuyerNames = response.data.people
-          console.log(this.BuyerNames)
-        })
-        .catch( e=> console.log(e))
-    },
     searchClient(){
-      console.log(this.id)
+      console.log('http://localhost:8090/buyer_info/'+this.id)
       axios.get('http://localhost:8090/buyer_info/'+this.id)
         .then(response => {
           this.buyerIp = response.data.sameIpBuyers
           this.buyerProd = response.data.purchaseHistory
+          this.recomendations = response.data.recomendations
+          console.log(response)
         })
         .catch( e=> console.log(e))
     }
@@ -117,28 +132,8 @@ export default {
 	top:1px;
 }
 div{
-  height: 10em;
   justify-content: center;
 }
-.zui-table {
-    border: solid 1px #DDEEEE;
-    border-collapse: collapse;
-    border-spacing: 0;
-    font: normal 13px Arial, sans-serif;
-}
-.zui-table thead th {
-    background-color: #DDEFEF;
-    border: solid 1px #DDEEEE;
-    color: #336B6B;
-    padding: 10px;
-    text-align: center;
-    text-shadow: 1px 1px 1px #fff;
-}
-.zui-table tbody td {
-    border: solid 1px #DDEEEE;
-    color: #333;
-    padding: 10px;
-    text-shadow: 1px 1px 1px #fff;
-}
+
 
 </style>

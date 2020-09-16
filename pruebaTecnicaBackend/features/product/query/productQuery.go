@@ -6,9 +6,12 @@ const (
 			ResponseString : product_ids
 		}
 	  }`
+
 	GETPRODUCT = `query all($a: string) {
 		Response(func: eq(id, $a)) {
-			ResponseString : name
+			Id : id
+			Name : name
+			Price: price
 		}
 	}`
 )

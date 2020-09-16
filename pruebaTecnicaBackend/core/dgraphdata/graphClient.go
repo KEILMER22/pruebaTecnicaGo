@@ -9,16 +9,6 @@ import (
 	"google.golang.org/grpc"
 )
 
-/*
-type Purchases struct {
-	Uid          string        `json:"uid,omitempty"`
-	Buyers       []Buyer       `json:"Buyers,omitempty"`
-	Products     []Product     `json:"Products,omitempty"`
-	Transactions []Transaction `json:"Transactions,omitempty"`
-}
-
-
-*/
 const (
 	RUTA_BASE_DATOS = "localhost:9080"
 	SCHEMA          = `

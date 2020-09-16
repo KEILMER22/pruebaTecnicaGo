@@ -4,13 +4,18 @@ import (
 	"encoding/json"
 	"log"
 	dgrahpdata "pruebatecnica/pruebatecnicabackend/core/dgraphdata"
+	"pruebatecnica/pruebatecnicabackend/features/product/domain/models"
 	"pruebatecnica/pruebatecnicabackend/features/product/query"
 )
 
-func GetProductsHistory(id string) []string {
+type Response struct {
+	Response []models.Product
+}
+
+func GetProductsHistory(id string) []models.Product {
 	var data dgrahpdata.AuxResponse
-	var product dgrahpdata.AuxResponseSingle
-	var StringProduct []string
+	var product Response
+	var products []models.Product
 	response := dgrahpdata.BdQueryWithVars(query.GETPRODUCTSIDBYBUYERID, id).Json
 	error := json.Unmarshal(response, &data)
 	if error != nil {
@@ -26,11 +31,10 @@ func GetProductsHistory(id string) []string {
 					log.Fatal(error)
 				}
 				if len(product.Response) != 0 {
-					StringProduct = append(StringProduct, product.Response[0].ResponseString)
+					products = append(products, product.Response[0])
 				}
 			}
 		}
 	}
-	StringProduct = dgrahpdata.RemoveDuplicatesUnordered(StringProduct)
-	return StringProduct
+	return products
 }

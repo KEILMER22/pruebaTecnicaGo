@@ -17,6 +17,7 @@ import axios from 'axios'
 
 export default {
   name: 'inputDate',
+  endPointRoute: 'http://localhost:8090/load_data/', 
   props: {
     msg: String
   },
@@ -32,7 +33,8 @@ export default {
     fechaSeleccionada: function() {
       this.dateLabel = "Sincronizando..."
       this.fecha = moment(String(this.date)).format('DD-MM-YYYY')
-      axios.get('http://localhost:8090/load_data/'+String(this.fecha))
+      this.endPointRoute = this.endPointRoute+String(this.fecha)
+      axios.get(endPointRoute)
         .then(response => {
           console.log(response)
           this.dateLabel = "Sincronizado en: "+  this.fecha

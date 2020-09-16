@@ -4,15 +4,25 @@ import (
 	"encoding/json"
 	"log"
 	dgrahpdata "pruebatecnica/pruebatecnicabackend/core/dgraphdata"
+	"pruebatecnica/pruebatecnicabackend/features/buyer/domain/models"
 	"pruebatecnica/pruebatecnicabackend/features/buyer/query"
+	"strconv"
 )
 
-//GetBuyerInfo return
-func GetBuyerWhitSameIP(id string) []string {
+type ResponseBuyer struct {
+	Response []BuyerA `json:"Response"`
+}
+type BuyerA struct {
+	Name string `json:"Name,omitempty"`
+	Age  string `json:"Age,omitempty"`
+	Id   string `json:"Id,omitempty"`
+}
+
+func GetBuyerWhitSameIP(id string) []models.Buyer {
+	var buyers []models.Buyer
+	var buyer ResponseBuyer
 	var sameIp dgrahpdata.AuxResponseSingle
 	var buyerIp dgrahpdata.AuxResponseSingle
-	var buyerNames dgrahpdata.AuxResponseSingle
-	var buyers []string
 	response := dgrahpdata.BdQueryWithVars(query.GETIPSBYBUYERID, id).Json
 	error := json.Unmarshal(response, &buyerIp)
 	if error != nil {
@@ -29,15 +39,20 @@ func GetBuyerWhitSameIP(id string) []string {
 		for i := 0; i < len(sameIp.Response); i++ {
 			id := sameIp.Response[i].ResponseString
 			response = dgrahpdata.BdQueryWithVars(query.GETNAMEBYID, id).Json
-			error := json.Unmarshal(response, &buyerNames)
+			error := json.Unmarshal(response, &buyer)
 			if error != nil {
 				log.Fatal(error)
 			}
-			name := buyerNames.Response[0].ResponseString
-			buyers = append(buyers, name)
+			for k := 0; k < len(buyer.Response); k++ {
+				age, err := strconv.Atoi(buyer.Response[k].Age)
+				if err != nil {
+					log.Fatal(error)
+				}
+				temp := models.NewBuyer(buyer.Response[k].Id, buyer.Response[k].Name, age)
+				buyers = append(buyers, temp)
+			}
 		}
-
 	}
-	buyers = dgrahpdata.RemoveDuplicatesUnordered(buyers)
+
 	return buyers
 }
